@@ -66,4 +66,4 @@ versions we run (Godot 4.7, Blender 5.2). Add a row when a decision depends on o
 
 | Claim | Source (link) | How we checked it |
 | --- | --- | --- |
-| Blender can export emission materials through glTF | [Blender 5.2 glTF Exporter Manual] (https://docs.blender.org/manual/en/5.2/addons/scene_gltf2.html) | Set emission in `tools/build_art.py`,ran `deno task art`, and checked the result in Godot. |
+| Blender can export emission materials through glTF | Blender 5.2 glTF Exporter Manual: https://docs.blender.org/manual/en/5.2/addons/import_export/scene_gltf2.html | Set emission in `tools/build_art.py`,ran `deno task art`, and checked the result in Godot. |
