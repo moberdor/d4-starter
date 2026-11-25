@@ -96,6 +96,9 @@ def make_materials():
         "s": pbr_material("Stone", "#9e9883", roughness=0.85),
         "t": pbr_material("Moss", "#6f8558", roughness=0.9),
         "w": pbr_material("Brick", "#6b4d3d", roughness=0.9),
+        "f": pbr_material("Bug", "#2a2522", roughness=0.6),
+        "y": pbr_material("Firefly", "#ffe680", emission="#ffd23a", strength=4.0),
+        "v": pbr_material("Wing", "#dbe6f2", roughness=0.3),
     })
 
 
@@ -174,6 +177,20 @@ def build_tail(bm):
         """])
 
 
+def build_firefly(bm):
+    voxels(bm, ["", """
+        ....
+        .ff.
+        .yy.
+        .yy.
+        """, """
+        ....
+        vffv
+        vyyv
+        ....
+        """])
+
+
 def build_floor(bm):
     voxels(bm, ["""
         ssst
@@ -197,6 +214,7 @@ PIECES = {  # the dragon kit; the game finds each mesh by these names
     "straight": build_straight,
     "turn": build_turn,
     "tail": build_tail,
+    "firefly": build_firefly,
 }
 TILES = {  # one entry per kind in core/board.gd's TILES; a new kind is one builder and one line
     "floor": build_floor,

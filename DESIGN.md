@@ -29,6 +29,8 @@ already here from the starter; keep them accurate as you change things.
 | tile kind | what a cell is made of, such as `floor` or `wall` | `Board.TILES`, `TILES` in `tools/build_art.py` |
 | piece | one model in the kit: head, straight, turn, tail | `Kit.Piece`, `PIECES` in `tools/build_art.py` |
 | glowworm | the creature you steer; the code still calls it the dragon | `Dragon` in `core/dragon.gd` |
+| firefly | eating one scores 1 and grows the glowworm by 2 cells | `Session.firefly`, `build_firefly` |
+| score | fireflies eaten | `Session.score` |
 
 ## Where things live
 

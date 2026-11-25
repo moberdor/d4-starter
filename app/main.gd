@@ -15,6 +15,8 @@ const DIRECTIONS := {
 var session := Session.new(GRID)
 var meshes := {}  # kit piece name -> Mesh, shared by everything that shows it (Flyweight)
 var segments: Array[MeshInstance3D] = []
+var firefly := MeshInstance3D.new()
+var score_label := Label.new()
 var camera := Camera3D.new()
 var _clock := 0.0
 
@@ -22,7 +24,7 @@ var _clock := 0.0
 func _ready() -> void:
 	meshes = Stage.load_kit()
 	_build_stage()
-	_draw_dragon()
+	_draw_session()
 
 
 ## Input arrives as events, so even a tap shorter than one frame is never missed.
@@ -37,13 +39,21 @@ func _process(delta: float) -> void:
 	while _clock >= TICK_SECONDS:
 		_clock -= TICK_SECONDS
 		session.tick()
-		_draw_dragon()
+		_draw_session()
+	firefly.rotate_y(delta * 2)
 	_follow(delta)
 
 
 ## Sky, light, and tiles live in app/stage.gd; the camera follows the head.
 func _build_stage() -> void:
 	add_child(Stage.new(session.board.tiles, meshes))
+	firefly.mesh = meshes["firefly"]
+	add_child(firefly)
+	var hud := CanvasLayer.new()
+	add_child(hud)
+	score_label.position = Vector2(24, 16)
+	score_label.add_theme_font_size_override("font_size", 36)
+	hud.add_child(score_label)
 	add_child(camera)
 	camera.position = _center(session.dragon.body[0]) + CAMERA_OFFSET
 
@@ -53,6 +63,12 @@ func _follow(delta: float) -> void:
 	var target := _center(session.dragon.body[0]) + CAMERA_OFFSET
 	camera.position = camera.position.lerp(target, 1 - exp(-3 * delta))
 	camera.look_at(camera.position - CAMERA_OFFSET)
+
+
+func _draw_session() -> void:
+	_draw_dragon()
+	firefly.position = _center(session.firefly)
+	score_label.text = "Fireflies: %d" % session.score
 
 
 func _draw_dragon() -> void:
