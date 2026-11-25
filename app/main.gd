@@ -31,7 +31,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	for action in DIRECTIONS:
 		if event.is_action_pressed(action):
-			session.dragon.turn(DIRECTIONS[action])
+			session.turn(DIRECTIONS[action])
 
 
 func _process(delta: float) -> void:

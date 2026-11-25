@@ -10,6 +10,7 @@ var board: Board
 var dragon: Dragon
 var firefly: Vector2i
 var score := 0
+var started := false
 var rng := RandomNumberGenerator.new()
 
 
@@ -20,10 +21,17 @@ func _init(grid_size: Vector2i, rng_seed := 0) -> void:
 	place_firefly()
 
 
+func turn(direction: Vector2i) -> void:
+	started = true
+	dragon.turn(direction)
+
+
 ## One step of the rules. TODO for D4: collisions with the dragon's own body and with
 ## solid tiles (board.is_solid). Each needs the dragon and something else, which is
 ## why they go here rather than in Dragon.tick.
 func tick() -> void:
+	if not started:
+		return
 	dragon.tick()
 	if dragon.body[0] == firefly:
 		score += 1
