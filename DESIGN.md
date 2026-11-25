@@ -5,8 +5,7 @@ to learn where your project is headed. Replace each _italic prompt_.
 
 ## Target
 
-_One or two sentences: what is this creature, what does it eat, where does it live,
-and what should playing feel like?_
+A purple worm with a glowing tail crawls around a garden at night while eating fireflies. Playing the game should feel relaxed at first and more tense as the worm gets longer. The grid is 24x24.
 
 ## Menu choices
 
@@ -29,7 +28,7 @@ already here from the starter; keep them accurate as you change things.
 | tick | one step of the rules; the dragon moves one cell | `Session.tick()`, `Dragon.tick()` |
 | tile kind | what a cell is made of, such as `floor` or `wall` | `Board.TILES`, `TILES` in `tools/build_art.py` |
 | piece | one model in the kit: head, straight, turn, tail | `Kit.Piece`, `PIECES` in `tools/build_art.py` |
-| _word_ | _meaning_ | _where_ |
+| glowworm | the creature you steer; the code still calls it the dragon | `Dragon` in `core/dragon.gd` |
 
 ## Where things live
 
