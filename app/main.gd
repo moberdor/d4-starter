@@ -12,11 +12,13 @@ const DIRECTIONS := {
 	"ui_right": Vector2i.RIGHT,
 }
 
-var session := Session.new(GRID)
+var session := Session.new(GRID, randi())
 var meshes := {}  # kit piece name -> Mesh, shared by everything that shows it (Flyweight)
 var segments: Array[MeshInstance3D] = []
 var firefly := MeshInstance3D.new()
 var score_label := Label.new()
+var message := Label.new()
+var shade := ColorRect.new()
 var camera := Camera3D.new()
 var _clock := 0.0
 
@@ -24,11 +26,17 @@ var _clock := 0.0
 func _ready() -> void:
 	meshes = Stage.load_kit()
 	_build_stage()
+	_build_hud()
 	_draw_session()
 
 
 ## Input arrives as events, so even a tap shorter than one frame is never missed.
 func _unhandled_input(event: InputEvent) -> void:
+	if session.over:
+		if event.is_action_pressed("ui_accept"):
+			session = Session.new(GRID, randi())
+			_draw_session()
+		return
 	for action in DIRECTIONS:
 		if event.is_action_pressed(action):
 			session.turn(DIRECTIONS[action])
@@ -49,13 +57,25 @@ func _build_stage() -> void:
 	add_child(Stage.new(session.board.tiles, meshes))
 	firefly.mesh = meshes["firefly"]
 	add_child(firefly)
-	var hud := CanvasLayer.new()
-	add_child(hud)
-	score_label.position = Vector2(24, 16)
-	score_label.add_theme_font_size_override("font_size", 36)
-	hud.add_child(score_label)
 	add_child(camera)
 	camera.position = _center(session.dragon.body[0]) + CAMERA_OFFSET
+
+
+func _build_hud() -> void:
+	var hud := CanvasLayer.new()
+	add_child(hud)
+	shade.color = Color(0, 0, 0, 0.55)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hud.add_child(shade)
+	score_label.position = Vector2(24, 16)
+	hud.add_child(score_label)
+	message.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	message.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	hud.add_child(message)
+	for label in [score_label, message]:
+		label.add_theme_font_size_override("font_size", 36)
+		label.add_theme_constant_override("outline_size", 10)
 
 
 ## Ease toward the head each frame, so the camera glides while the dragon steps.
@@ -69,6 +89,12 @@ func _draw_session() -> void:
 	_draw_dragon()
 	firefly.position = _center(session.firefly)
 	score_label.text = "Fireflies: %d" % session.score
+	shade.visible = session.over
+	message.visible = session.over or not session.started
+	if session.over:
+		message.text = "Lights out!\n%d fireflies eaten\nPress Enter to glow again" % session.score
+	else:
+		message.text = "Press an arrow key to crawl"
 
 
 func _draw_dragon() -> void:

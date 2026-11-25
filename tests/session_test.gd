@@ -47,3 +47,37 @@ func test_nothing_moves_before_the_first_arrow_key() -> void:
 	session.turn(Vector2i.UP)
 	session.tick()
 	assert_eq(session.dragon.body[0], Vector2i(5, 4))
+
+
+func test_hitting_a_wall_ends_the_run() -> void:
+	var session := Session.new(Vector2i(10, 10))
+	session.turn(Vector2i.UP)
+	for i in 5:
+		session.tick()
+	assert_true(session.over)
+	var body := session.dragon.body.duplicate()
+	session.tick()
+	assert_eq(session.dragon.body, body)
+
+
+func test_biting_the_body_ends_the_run() -> void:
+	var session := _curled()
+	session.dragon.body.append(Vector2i(4, 4))
+	session.tick()
+	assert_true(session.over)
+
+
+func test_chasing_the_tail_is_safe() -> void:
+	var session := _curled()
+	session.tick()
+	assert_true(not session.over)
+	assert_eq(session.dragon.body[0], Vector2i(4, 5))
+
+
+func _curled() -> Session:
+	var session := Session.new(Vector2i(10, 10))
+	var body: Array[Vector2i] = [Vector2i(5, 5), Vector2i(5, 6), Vector2i(4, 6), Vector2i(4, 5)]
+	session.dragon.body = body
+	session.dragon.heading = Vector2i.UP
+	session.turn(Vector2i.LEFT)
+	return session

@@ -24,13 +24,14 @@ already here from the starter; keep them accurate as you change things.
 | Word | Meaning | In code |
 | --- | --- | --- |
 | cell | one square of the grid | `Vector2i` |
-| session | one run at the game, from the first tick until it ends; owns the board and the dragon | `Session` in `core/session.gd` |
+| session | one run at the game, from the first arrow key until a crash; owns the board and the dragon | `Session` in `core/session.gd` |
 | tick | one step of the rules; the dragon moves one cell | `Session.tick()`, `Dragon.tick()` |
 | tile kind | what a cell is made of, such as `floor` or `wall` | `Board.TILES`, `TILES` in `tools/build_art.py` |
 | piece | one model in the kit: head, straight, turn, tail | `Kit.Piece`, `PIECES` in `tools/build_art.py` |
 | glowworm | the creature you steer; the code still calls it the dragon | `Dragon` in `core/dragon.gd` |
 | firefly | eating one scores 1 and grows the glowworm by 2 cells | `Session.firefly`, `build_firefly` |
 | score | fireflies eaten | `Session.score` |
+| lights out | the head hit a wall or the body, so the run stops and enter starts a new session | `Session.over` |
 
 ## Where things live
 

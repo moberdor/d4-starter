@@ -11,6 +11,7 @@ var dragon: Dragon
 var firefly: Vector2i
 var score := 0
 var started := false
+var over := false
 var rng := RandomNumberGenerator.new()
 
 
@@ -30,10 +31,13 @@ func turn(direction: Vector2i) -> void:
 ## solid tiles (board.is_solid). Each needs the dragon and something else, which is
 ## why they go here rather than in Dragon.tick.
 func tick() -> void:
-	if not started:
+	if not started or over:
 		return
 	dragon.tick()
-	if dragon.body[0] == firefly:
+	var head := dragon.body[0]
+	if board.is_solid(head) or head in dragon.body.slice(1):
+		over = true
+	elif head == firefly:
 		score += 1
 		dragon.grow(GROWTH)
 		place_firefly()
