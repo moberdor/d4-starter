@@ -1,7 +1,7 @@
 {
   // godot-tools: .tools/godot is a link that deno task setup makes to the pinned Godot.
   // Headless mode starts a windowless Godot for completion, so no editor needs to be open.
-  "godotTools.editorPath.godot4": ".tools/godot",
+  "godotTools.editorPath.godot4": "c:\\Users\\caden\\Downloads\\Godot_v4.7.2-stable_win64.exe\\Godot_v4.7.2-stable_win64.exe",
   "godotTools.lsp.headless": true,
   // CI checks GDScript formatting with gdformat (deno task fmt), not this extension's formatter.
   "[gdscript]": { "editor.formatOnSave": false },

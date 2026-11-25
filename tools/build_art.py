@@ -89,13 +89,14 @@ def srgb(hex_code):
 def make_materials():
     """One material per voxel character. Runs after reset_scene(), which would erase them."""
     PALETTE.update({
-        "#": pbr_material("Scales", "#2f9e5b", metallic=0.2, roughness=0.45),
-        "*": pbr_material("Gold", "#f2bf3a", metallic=1.0, roughness=0.3),
-        "e": pbr_material("Eye", "#ffb22e", emission="#ffa21a", strength=4.0),
-        "o": pbr_material("Ember", "#ff6a1a", emission="#ff4a08", strength=3.0),
-        "s": pbr_material("Stone", "#9e9883", roughness=0.85),
-        "t": pbr_material("Moss", "#6f8558", roughness=0.9),
-        "w": pbr_material("Brick", "#6b4d3d", roughness=0.9),
+        "#": pbr_material("Hide", "#7a3fb8", roughness=0.55),
+        "p": pbr_material("Spot", "#e6c2ff", roughness=0.4, emission="#c98bff", strength=1.5),
+        "e": pbr_material("Eye", "#fff3a0", emission="#e8ff70", strength=4.0),
+        "g": pbr_material("Glow", "#aaffcc", emission="#5dffa8", strength=5.0),
+        "a": pbr_material("Grass", "#2f6b3a", roughness=0.9),
+        "d": pbr_material("Soil", "#3a2a22", roughness=0.95),
+        "h": pbr_material("Hedge", "#1f4d2e", roughness=0.95),
+        "l": pbr_material("Leaf", "#2f7a43", roughness=0.8),
         "f": pbr_material("Bug", "#2a2522", roughness=0.6),
         "y": pbr_material("Firefly", "#ffe680", emission="#ffd23a", strength=4.0),
         "v": pbr_material("Wing", "#dbe6f2", roughness=0.3),
@@ -133,17 +134,16 @@ def build_head(bm):
         ####
         .##.
         """, """
-        ....
+        .##.
         e##e
         .##.
         .##.
         """, """
         ....
+        p..p
         ....
-        *..*
         ....
         """])
-
 
 def build_straight(bm):
     voxels(bm, ["""
@@ -152,12 +152,11 @@ def build_straight(bm):
         .##.
         .##.
         """, """
-        ....
-        .*..
-        ....
-        .*..
+        .##.
+        .##.
+        .##.
+        .##.
         """])
-
 
 def build_turn(bm):
     voxels(bm, ["""
@@ -165,15 +164,24 @@ def build_turn(bm):
         .###
         .###
         .##.
+        """, """
+        ....
+        .###
+        .###
+        .##.
         """])
-
 
 def build_tail(bm):
     voxels(bm, ["""
         .##.
         .##.
-        ..#.
-        ..o.
+        .gg.
+        .gg.
+        """, """
+        .##.
+        .##.
+        .gg.
+        ....
         """])
 
 
@@ -193,20 +201,39 @@ def build_firefly(bm):
 
 def build_floor(bm):
     voxels(bm, ["""
-        ssst
-        stss
-        ssss
-        tsss
-        """], below_ground=1)
-
+        dddd
+        dddd
+        dddd
+        dddd
+        """, """
+        aaaa
+        alaa
+        aaaa
+        aala
+        """, """
+        ....
+        .l..
+        ....
+        ...l
+        """], below_ground=2)
 
 def build_wall(bm):
     voxels(bm, ["""
-        wwww
-        wwww
-        wwww
-        wwww
-        """] * 3)
+        hhhh
+        hhhh
+        hhhh
+        hhhh
+        """, """
+        hhhh
+        hlhh
+        hhhh
+        hhlh
+        """, """
+        hlhh
+        hhhl
+        lhhh
+        hhlh
+        """])
 
 
 PIECES = {  # the dragon kit; the game finds each mesh by these names
